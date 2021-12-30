@@ -1,6 +1,6 @@
 {
   "name": "@laurenz1606/logger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "bin": "bin/index.js",
   "author": "laurenz1606 <laurenz.rausche@gmail.com>",
@@ -10,7 +10,9 @@
     "prepublish": "yarn build",
     "cleanup": "rimraf ./dist && rimraf ./bin && rimraf yarn.lock && rimraf node_modules && yarn install"
   },
-  "dependencies": {},
+  "dependencies": {
+    "chalk": "^5.0.0"
+  },
   "devDependencies": {
     "@types/node": "^17.0.5",
     "rimraf": "^3.0.2",
