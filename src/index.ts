@@ -1,3 +1,5 @@
+import chalk from "chalk";
+
 type LogLevels = "debug" | "info" | "warn" | "error";
 
 export function logger(message: string, level: LogLevels) {
@@ -8,10 +10,17 @@ export function logger(message: string, level: LogLevels) {
 function formatString(message: string, level: LogLevels) {
   const date = new Date();
   const formatedDate = date.toISOString();
-  const template = process.env.LOGGER_TEMPLATE || "[%L] %d %m";
+  const template = process.env.LOGGER_TEMPLATE || "[%l] %d %m";
+
+  let logLevel = "";
+
+  if (level === "debug") logLevel = chalk.magenta(level.toUpperCase());
+  if (level === "info") logLevel = chalk.cyan(level.toUpperCase());
+  if (level === "warn") logLevel = chalk.yellowBright(level.toUpperCase());
+  if (level === "error") logLevel = chalk.bold(chalk.red(level.toUpperCase()));
+
   return template
     .replace("%d", formatedDate)
-    .replace("%L", level.toUpperCase())
-    .replace("%l", level)
+    .replace("%l", logLevel)
     .replace("%m", message);
 }
