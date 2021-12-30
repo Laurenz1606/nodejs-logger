@@ -1,10 +1,10 @@
 {
   "name": "@laurenz1606/logger",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/index.js",
-  "bin": "bin/index.js",
   "author": "laurenz1606 <laurenz.rausche@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "rimraf ./dist && tsc",
     "prepublish": "yarn build",
