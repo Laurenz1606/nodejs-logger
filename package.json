@@ -1,11 +1,12 @@
 {
   "name": "@laurenz1606/logger",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "dist/index.js",
   "author": "laurenz1606 <laurenz.rausche@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "rimraf ./dist && tsc",
+    "test": "",
     "prepublish": "yarn build",
     "cleanup": "rimraf ./dist && rimraf ./bin && rimraf yarn.lock && rimraf node_modules && yarn install"
   },
