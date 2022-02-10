@@ -1,6 +1,10 @@
-import { logger } from ".";
+import { Logger } from "./src";
 
-logger("123", "info")
-logger("123", "debug")
-logger("123", "warn")
-logger("123", "error")
+const log = new Logger({
+  format: "[%d] %m",
+});
+
+log.log("debug", "Hallo12");
+log.log("info", "Hallo12");
+log.log("warn", "Hallo12");
+log.log("error", "Hallo12");
