@@ -5,8 +5,8 @@ type LogLevels = "debug" | "info" | "warn" | "error";
 //all format identities
 // %L -> The current LogLevel in Uppercase (e.g. "INFO")
 // %l -> The current LogLevel in Lowercase (e.g. "info")
-// %d -> The current date as YYYY-MM-DD HH:MM:SS (e.g. "2022-01-10 21:04:32")
-// %M -> The message for the logger in Uppercase (e.g. "404 NOT FOUND")
+// %d -> The current date as YYYY-MM-DD (e.g. "2022-01-10")
+// %t -> The current time as HH:MM:SS (e.g. "21:04:32")
 // %m -> The message for the logger (e.g. "404 Not Found")
 
 interface Config {
