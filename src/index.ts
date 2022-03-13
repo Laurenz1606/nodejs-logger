@@ -29,7 +29,12 @@ function currentDate() {
   const date = new Date();
   return `${l2(String(date.getFullYear()))}-${l2(String(date.getMonth()))}-${l2(
     String(date.getDay()),
-  )} ${l2(String(date.getHours()))}:${l2(String(date.getMinutes()))}:${l2(
+  )}`;
+}
+
+function currentTime() {
+  const date = new Date();
+  return `${l2(String(date.getHours()))}:${l2(String(date.getMinutes()))}:${l2(
     String(date.getSeconds()),
   )}`;
 }
@@ -65,11 +70,16 @@ export class Logger {
     if (level === "error")
       logLevel = chalk.bold(chalk.red(level.toUpperCase()));
 
-    return (<string>this.Config.format)
-      .replace("%d", currentDate())
-      .replace("%L", logLevelUp)
-      .replace("%l", logLevel)
-      .replace("%M", up(message))
-      .replace("%m", message);
+    return message
+      .split("\n")
+      .map((line) => {
+        return (<string>this.Config.format)
+          .replace("%d", chalk.bold(chalk.green(currentDate())))
+          .replace("%t", chalk.bold(chalk.gray(currentTime())))
+          .replace("%L", logLevelUp)
+          .replace("%l", logLevel)
+          .replace("%m", line);
+      })
+      .join("\n");
   }
 }
