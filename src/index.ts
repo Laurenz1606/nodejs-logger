@@ -43,10 +43,10 @@ export class Logger {
   private Config: Config;
   constructor(config?: Config) {
     this.Config = {
-      debug: config?.debug || true,
-      error: config?.error || true,
-      info: config?.info || true,
-      warn: config?.warn || true,
+      debug: config?.debug ?? true,
+      error: config?.error ?? true,
+      info: config?.info ?? true,
+      warn: config?.warn ?? true,
       format: config?.format || "[%L] %m",
     };
   }
