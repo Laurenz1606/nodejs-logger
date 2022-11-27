@@ -9,13 +9,15 @@ type LogLevels = "debug" | "info" | "warn" | "error";
 // %t -> The current time as HH:MM:SS (e.g. "21:04:32")
 // %m -> The message for the logger (e.g. "404 Not Found")
 
-interface Config {
+export interface IConfig {
   debug?: boolean;
   info?: boolean;
   warn?: boolean;
   error?: boolean;
   format?: string;
 }
+
+type ErrorMessage = string | Error;
 
 function up(message: string): string {
   return message.toUpperCase();
@@ -40,8 +42,8 @@ function currentTime() {
 }
 
 export class Logger {
-  private Config: Config;
-  constructor(config?: Config) {
+  private Config: IConfig & { format: string };
+  constructor(config?: IConfig) {
     this.Config = {
       debug: config?.debug ?? true,
       error: config?.error ?? true,
@@ -51,11 +53,44 @@ export class Logger {
     };
   }
 
-  public log(level: LogLevels, message: string) {
-    if (this.Config[level]) console[level](this.format(level, message));
+  public debug(errorMessage: ErrorMessage) {
+    this.log("debug", errorMessage);
   }
 
-  public format(level: LogLevels, message: string): string {
+  public info(errorMessage: ErrorMessage) {
+    this.log("info", errorMessage);
+  }
+
+  public warn(errorMessage: ErrorMessage) {
+    this.log("warn", errorMessage);
+  }
+
+  public error(errorMessage: ErrorMessage) {
+    this.log("error", errorMessage);
+  }
+
+  public log(level: LogLevels, errorMessage: ErrorMessage) {
+    const log = this.Config[level];
+    const isError = errorMessage instanceof Error;
+
+    //exit when log is false
+    if (!log) return;
+
+    //check for error and error stack and log error
+    if (isError && errorMessage.stack) {
+      return console[level](this.format(level, errorMessage.stack));
+    }
+
+    //check for error and log error stack
+    if (isError) {
+      return console[level](this.format(level, errorMessage.message));
+    }
+
+    //log normal string
+    return console[level](this.format(level, errorMessage));
+  }
+
+  public format(level: LogLevels, errorMessage: string): string {
     let logLevel = "";
     if (level === "debug") logLevel = chalk.magenta(level);
     if (level === "info") logLevel = chalk.cyan(level);
@@ -70,10 +105,10 @@ export class Logger {
     if (level === "error")
       logLevel = chalk.bold(chalk.red(level.toUpperCase()));
 
-    return message
+    return errorMessage
       .split("\n")
       .map((line) => {
-        return (<string>this.Config.format)
+        return this.Config.format
           .replace("%d", chalk.bold(chalk.green(currentDate())))
           .replace("%t", chalk.bold(chalk.gray(currentTime())))
           .replace("%L", logLevelUp)
